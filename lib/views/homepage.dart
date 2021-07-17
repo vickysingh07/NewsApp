@@ -20,13 +20,16 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
     categories = getCategories();
+    getNews();
   }
 
   getNews() async{
     News newsClass = News();
     await newsClass.getNews();
     articles = newsClass.news;
-    setState(() {});
+    setState(() {
+      _loading = false;
+    });
   }
 
   @override
@@ -51,33 +54,35 @@ class _HomeState extends State<Home> {
         child: Container(
           child: CircularProgressIndicator(),
         ),
-      ):Container(
+      ):SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
-            children: [
+              children: [
+                //categories
+                Container(
+                  height: 65,
+                  child: ListView.builder(
+                      itemCount: categories.length,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index){
+                        return CategoryTile(categoryName: categories[index].categoryName, imageUrl: categories[index].imageUrl);
+                      }),
+                ),
 
-              //categories
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                height: 65,
-                child: ListView.builder(
-                    itemCount: categories.length,
+                //Blogs
+                Container(
+                  child: ListView.builder(
                     shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index){
-                      return CategoryTile(categoryName: categories[index].categoryName, imageUrl: categories[index].imageUrl);
-                    }),
-              ),
-
-              //Blogs
-              Container(
-                child: ListView.builder(
-                    itemCount: articles.length,
-                    itemBuilder: (context, index){
-                      return BlogTile(imageUrl: articles[index].urlToImage, title: articles[index].title, desc: articles[index].description);
-                    }),
-              )
-            ],
-          ),
+                      itemCount: articles.length,
+                      itemBuilder: (context, index){
+                        return BlogTile(imageUrl: articles[index].urlToImage, title: articles[index].title, desc: articles[index].description);
+                      }),
+                )
+              ],
+            ),
+        ),
       ),
     );
   }
