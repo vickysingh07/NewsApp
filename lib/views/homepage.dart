@@ -38,6 +38,7 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 height: 65,
                 child: ListView.builder(
                     itemCount: categories.length,
@@ -59,13 +60,48 @@ class CategoryTile extends StatelessWidget {
   CategoryTile({this.imageUrl, this.categoryName});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Image.network(imageUrl, height: 60, width: 120,),
-        ],
+    return GestureDetector(
+      onTap: (){},
+      child: Container(
+        margin: EdgeInsets.only(right: 14),
+        child: Stack(
+          children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.network(imageUrl, height: 60, width: 120, fit: BoxFit.cover,)),
+            Container(
+              alignment: Alignment.center,
+              height: 60, width: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                  color: Colors.black26
+              ),
+              child: Text(categoryName, style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 14
+              ),),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
+class BlogTile extends StatelessWidget {
+  final String imageUrl, desc, title;
+  BlogTile({required this.imageUrl, required this.title, required this.desc});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Image.network(imageUrl),
+          Text(title),
+          Text(desc)
+        ],
+      ),
+    );
+  }
+}
