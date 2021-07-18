@@ -4,6 +4,7 @@ import 'package:news_app/helper/news.dart';
 import 'package:news_app/models/article_model.dart';
 import 'package:news_app/models/category_model.dart';
 
+// ignore: use_key_in_widget_constructors
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -23,10 +24,10 @@ class _HomeState extends State<Home> {
     getNews();
   }
 
-  getNews() async{
-    News newsClass = News();
-    await newsClass.getNews();
-    articles = newsClass.news;
+    getNews() async{
+    News news = News();
+    await news.getNews();
+    articles = news.news;
     setState(() {
       _loading = false;
     });
@@ -51,15 +52,17 @@ class _HomeState extends State<Home> {
         ),
       ),
       body: _loading ? Center(
+        // ignore: avoid_unnecessary_containers
         child: Container(
-          child: CircularProgressIndicator(),
+          child: const CircularProgressIndicator(),
         ),
       ):SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
               children: [
                 //categories
+                // ignore: sized_box_for_whitespace
                 Container(
                   height: 65,
                   child: ListView.builder(
@@ -72,10 +75,11 @@ class _HomeState extends State<Home> {
                 ),
 
                 //Blogs
+                // ignore: avoid_unnecessary_containers
                 Container(
                   child: ListView.builder(
-                    shrinkWrap: true,
                       itemCount: articles.length,
+                      shrinkWrap: true,
                       itemBuilder: (context, index){
                         return BlogTile(imageUrl: articles[index].urlToImage, title: articles[index].title, desc: articles[index].description);
                       }),
@@ -89,14 +93,16 @@ class _HomeState extends State<Home> {
 }
 
 class CategoryTile extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final imageUrl, categoryName;
-  CategoryTile({this.imageUrl, this.categoryName});
+  // ignore: use_key_in_widget_constructors
+  const CategoryTile({this.imageUrl, this.categoryName});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){},
       child: Container(
-        margin: EdgeInsets.only(right: 14),
+        margin: const EdgeInsets.only(right: 14),
         child: Stack(
           children: [
             ClipRRect(
@@ -124,9 +130,11 @@ class CategoryTile extends StatelessWidget {
 
 class BlogTile extends StatelessWidget {
   final String imageUrl, desc, title;
-  BlogTile({required this.imageUrl, required this.title, required this.desc});
+  // ignore: use_key_in_widget_constructors
+  const BlogTile({required this.imageUrl, required this.title, required this.desc});
   @override
   Widget build(BuildContext context) {
+    // ignore: avoid_unnecessary_containers
     return Container(
       child: Column(
         children: [

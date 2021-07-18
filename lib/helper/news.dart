@@ -20,6 +20,7 @@ class News {
             author: element['author'],
             description: element['description'],
             urlToImage: element['urlToImage'],
+            publshedAt: DateTime.parse(element['publishedAt']),
             content: element["content"],
             url: element["url"],
           );
